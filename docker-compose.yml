@@ -1,0 +1,62 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+
+  grading_service:
+    build: .
+    container_name: grading_service
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - FLASK_APP=app:create_app
+      - FLASK_ENV=development
+      - PYTHONPATH=/app
+
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    command: flask run --host=0.0.0.0 --port=8000
+
+  grading_service_2:
+    build: .
+    container_name: grading_service_2
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - FLASK_APP=app:create_app
+      - FLASK_ENV=development
+      - PYTHONPATH=/app
+    ports:
+      - "8001:8001"
+
+    depends_on:
+      - mongo
+    command: flask run --host=0.0.0.0 --port=8001
+
+
+  grading_service_test:
+    build: .
+    container_name: grading_service_test
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - PYTHONPATH=/app
+    depends_on:
+      - mongo
+    command: pytest
+
+
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "80:80"
+    depends_on:
+      - grading_service
+      - grading_service_2

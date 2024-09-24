@@ -1,0 +1,6 @@
+Flask
+pymongo
+pydantic
+pytest
+pytest-flask
+mongomock
