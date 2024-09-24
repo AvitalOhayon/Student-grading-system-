@@ -31,6 +31,7 @@ The **Student Grading System** is a microservice-based web application that allo
 ├── haproxy.cfg               # HAProxy configuration for load balancing
 ├── README.md                 # Project documentation
 ├── requirements.txt          # Python dependencies
+```
 
 
 
@@ -69,24 +70,6 @@ This will spin up the following services:
 * **HAProxy**: Load balancer running on port 80.
 
 ### 2. Access the API
-
-You can access the API via HAProxy on `http://localhost`. The load balancer will distribute requests between the grading service instances running on ports 8000 and 8001.
-
-## Running Tests
-
-To run tests in the `grading_service_test` container:
-
-```bash
-docker-compose run grading_service_test
-```
-
-The test suite includes unit and integration tests to ensure the functionality of the API endpoints.
-
-### Clean Up Test Data
-
-The tests automatically clean up the test data from the MongoDB collection by deleting records marked as `is_test_data=True`.
-
-## API Endpoints
 
 ### 1. Root Endpoint
 
@@ -152,4 +135,18 @@ The system is designed to be scalable. Multiple instances of the grading service
 
 In the current setup, two instances of `grading_service` are defined: one running on port 8000 and another on port 8001. You can increase or decrease the number of instances as needed by adding/removing entries in the `docker-compose.yml`.
 
+
+## Running Tests
+
+To run tests in the `grading_service_test` container:
+
+```bash
+docker-compose run grading_service_test
+```
+
+The test suite includes unit and integration tests to ensure the functionality of the API endpoints.
+
+### Clean Up Test Data
+
+The tests automatically clean up the test data from the MongoDB collection by deleting records marked as `is_test_data=True`.
 
