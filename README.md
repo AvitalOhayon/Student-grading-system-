@@ -146,7 +146,5 @@ docker-compose run grading_service_test
 
 The test suite includes unit and integration tests to ensure the functionality of the API endpoints.
 
-### Clean Up Test Data
 
-The tests automatically clean up the test data from the MongoDB collection by deleting records marked as `is_test_data=True`.
 
